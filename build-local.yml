@@ -69,5 +69,5 @@ services:
 volumes:
   postgres_data:
 
-# docker compose -p hoidanit-nest-angular up -d
-# docker compose -p hoidanit-nest-angular up -d --build
+# docker compose -f build-local.yml -p hoidanit-nest-angular up -d
+# docker compose -f build-local.yml -p hoidanit-nest-angular up -d --build

@@ -18,7 +18,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
-      start_period: 10s
+      start_period: 15s
 
   # NestJS Backend
   backend:
@@ -50,7 +50,7 @@ services:
 
   # Angular Frontend
   frontend:
-    image: hoidanitreal/deploy-m03-starter-fullstack-angular
+    image: hoidanitreal/deploy-m04-starter-fullstack-angular-static-only
     container_name: todo-frontend
     restart: unless-stopped
     environment:

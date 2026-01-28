@@ -36,5 +36,4 @@ ENV API_URL=/api
 # Expose port
 EXPOSE ${PORT}
 
-# At runtime: replace API URL in JS files, then start Caddy
-CMD ["sh", "-c", "find . -name '*.js' -exec sed -i \"s|/api|${API_URL}|g\" {} + && caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"]
+CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
