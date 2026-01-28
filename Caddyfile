@@ -1,0 +1,22 @@
+# Caddyfile - Reverse Proxy Configuration
+# Sử dụng domain thực hoặc localhost
+
+{$DOMAIN:localhost} {
+    # Reverse proxy cho API backend (NestJS)
+    # Tất cả requests đến /api/* sẽ được chuyển đến backend
+    handle /api/* {
+        reverse_proxy backend:3000
+    }
+
+    # Reverse proxy cho frontend (Angular)
+    # Tất cả requests còn lại sẽ được chuyển đến frontend
+    handle {
+        reverse_proxy frontend:80
+    }
+
+    # Logging
+    log {
+        output stdout
+        format console
+    }
+}
