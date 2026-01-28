@@ -1,0 +1,125 @@
+<!--
+  Author: Hỏi Dân IT - @hoidanit
+
+  This source code is developed for the course
+  "Deploy Siêu Tốc".
+  It is intended for educational purposes only.
+  Unauthorized distribution, reproduction, or modification is strictly prohibited.
+
+  Copyright (c) 2026 Hỏi Dân IT. All Rights Reserved.
+-->
+
+<div class="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800">
+  <!-- Navigation -->
+  <nav class="container mx-auto px-6 py-4">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+          </svg>
+        </div>
+        <span class="text-xl font-bold text-white">TodoApp</span>
+      </div>
+      <div class="flex items-center gap-4">
+        @if (authService.isAuthenticated()) {
+          <a routerLink="/todos" class="px-5 py-2.5 bg-white text-indigo-600 font-medium rounded-xl hover:bg-gray-100 transition-colors">
+            Vào ứng dụng
+          </a>
+        } @else {
+          <a routerLink="/auth/login" class="px-5 py-2.5 text-white/90 hover:text-white transition-colors">
+            Đăng nhập
+          </a>
+          <a routerLink="/auth/register" class="px-5 py-2.5 bg-white text-indigo-600 font-medium rounded-xl hover:bg-gray-100 transition-colors">
+            Đăng ký
+          </a>
+        }
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <main class="container mx-auto px-6 pt-16 pb-24">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <!-- Left Content -->
+      <div class="text-center lg:text-left">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+          Quản lý công việc
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-yellow-400">
+            đơn giản & hiệu quả
+          </span>
+        </h1>
+        <p class="text-lg text-white/70 mb-8 max-w-xl mx-auto lg:mx-0">
+          Ứng dụng Todo giúp bạn theo dõi và hoàn thành công việc một cách có tổ chức.
+          Tạo, quản lý và đánh dấu hoàn thành các nhiệm vụ của bạn dễ dàng.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+          @if (authService.isAuthenticated()) {
+            <a routerLink="/todos" class="px-8 py-4 bg-gradient-to-r from-pink-500 to-yellow-500 text-white font-semibold rounded-2xl hover:from-pink-600 hover:to-yellow-600 transition-all shadow-lg shadow-pink-500/30 text-center">
+              Đi tới Todo List
+            </a>
+          } @else {
+            <a routerLink="/auth/register" class="px-8 py-4 bg-gradient-to-r from-pink-500 to-yellow-500 text-white font-semibold rounded-2xl hover:from-pink-600 hover:to-yellow-600 transition-all shadow-lg shadow-pink-500/30 text-center">
+              Bắt đầu miễn phí
+            </a>
+            <a routerLink="/auth/login" class="px-8 py-4 bg-white/10 text-white font-semibold rounded-2xl hover:bg-white/20 transition-all border border-white/20 text-center">
+              Đã có tài khoản?
+            </a>
+          }
+        </div>
+      </div>
+
+      <!-- Right Content - Feature Cards -->
+      <div class="grid gap-4">
+        <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/10">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-xl flex items-center justify-center flex-shrink-0">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-white mb-1">Dễ dàng sử dụng</h3>
+              <p class="text-white/60">Giao diện trực quan, thao tác nhanh chóng chỉ với vài click chuột.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/10">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-xl flex items-center justify-center flex-shrink-0">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-white mb-1">Bảo mật cao</h3>
+              <p class="text-white/60">Dữ liệu được mã hóa và bảo vệ với xác thực JWT an toàn.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/10">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-500 rounded-xl flex items-center justify-center flex-shrink-0">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-white mb-1">Hiệu suất cao</h3>
+              <p class="text-white/60">Được xây dựng với NestJS & Angular, đảm bảo tốc độ và ổn định.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="container mx-auto px-6 py-8 border-t border-white/10">
+    <div class="text-center text-white/50 text-sm">
+      <p>Developed by <span class="text-white/70 font-medium">Hỏi Dân IT</span> - Course "Deploy Siêu Tốc"</p>
+    </div>
+  </footer>
+</div>

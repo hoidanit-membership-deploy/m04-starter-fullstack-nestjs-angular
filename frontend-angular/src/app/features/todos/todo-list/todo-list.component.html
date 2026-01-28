@@ -1,0 +1,189 @@
+<!--
+  Author: Hỏi Dân IT - @hoidanit
+
+  This source code is developed for the course
+  "Deploy Siêu Tốc".
+  It is intended for educational purposes only.
+  Unauthorized distribution, reproduction, or modification is strictly prohibited.
+
+  Copyright (c) 2026 Hỏi Dân IT. All Rights Reserved.
+-->
+
+<div class="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800">
+  <!-- Header -->
+  <header class="bg-white/10 backdrop-blur-lg border-b border-white/10">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+      <a routerLink="/" class="flex items-center gap-2">
+        <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+          </svg>
+        </div>
+        <span class="text-xl font-bold text-white">TodoApp</span>
+      </a>
+      <div class="flex items-center gap-4">
+        <span class="text-white/80">
+          Xin chào, <span class="text-white font-medium">{{ authService.currentUser()?.name }}</span>
+        </span>
+        <button
+          (click)="onLogout()"
+          class="px-4 py-2 bg-white/10 text-white rounded-xl hover:bg-white/20 transition-colors border border-white/20"
+        >
+          Đăng xuất
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    <!-- Add Button -->
+    <div class="mb-6 flex justify-between items-center">
+      <h2 class="text-2xl font-bold text-white">Danh sách công việc</h2>
+      <button
+        (click)="onAddNew()"
+        class="flex items-center gap-2 bg-gradient-to-r from-pink-500 to-yellow-500 text-white px-5 py-2.5 rounded-xl hover:from-pink-600 hover:to-yellow-600 transition-all shadow-lg shadow-pink-500/30 font-medium"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        </svg>
+        Thêm Todo Mới
+      </button>
+    </div>
+
+    <!-- Loading State -->
+    @if (todoService.loading()) {
+      <div class="flex justify-center py-12">
+        <div class="animate-spin rounded-full h-10 w-10 border-4 border-white/20 border-t-white"></div>
+      </div>
+    }
+
+    <!-- Todo List -->
+    @if (!todoService.loading()) {
+      <div class="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/10 overflow-hidden">
+        @if (todoService.todos().length === 0) {
+          <div class="p-12 text-center">
+            <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+              </svg>
+            </div>
+            <p class="text-white/70 text-lg">Chưa có todo nào</p>
+            <p class="text-white/50 text-sm mt-1">Hãy tạo todo mới để bắt đầu!</p>
+          </div>
+        } @else {
+          <ul class="divide-y divide-white/10">
+            @for (todo of todoService.todos(); track todo.id) {
+              <li class="p-4 hover:bg-white/5 transition-colors">
+                <div class="flex items-center justify-between gap-4">
+                  <div class="flex items-center gap-4 flex-1 min-w-0">
+                    <button
+                      (click)="onToggleComplete(todo)"
+                      class="w-6 h-6 rounded-lg border-2 flex items-center justify-center flex-shrink-0 transition-all"
+                      [class.border-white/30]="!todo.completed"
+                      [class.border-green-400]="todo.completed"
+                      [class.bg-green-400]="todo.completed"
+                    >
+                      @if (todo.completed) {
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                        </svg>
+                      }
+                    </button>
+                    <div class="flex-1 min-w-0">
+                      <h3
+                        class="font-medium truncate"
+                        [class.line-through]="todo.completed"
+                        [class.text-white/50]="todo.completed"
+                        [class.text-white]="!todo.completed"
+                      >
+                        {{ todo.title }}
+                      </h3>
+                      @if (todo.description) {
+                        <p class="text-sm text-white/50 mt-1 truncate">
+                          {{ todo.description }}
+                        </p>
+                      }
+                      <p class="text-xs text-white/40 mt-1">
+                        {{ todo.createdAt | date:'dd/MM/yyyy HH:mm' }}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex gap-2 flex-shrink-0">
+                    <button
+                      (click)="onEdit(todo)"
+                      class="p-2 text-indigo-300 hover:text-white hover:bg-indigo-500/30 rounded-lg transition-colors"
+                      title="Sửa"
+                    >
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                      </svg>
+                    </button>
+                    <button
+                      (click)="onDelete(todo)"
+                      class="p-2 text-red-300 hover:text-white hover:bg-red-500/30 rounded-lg transition-colors"
+                      title="Xóa"
+                    >
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+
+      <!-- Pagination -->
+      @if (todoService.meta(); as meta) {
+        @if (meta.totalPages > 1) {
+          <div class="mt-6 flex justify-center gap-2">
+            <button
+              (click)="onPageChange(currentPage() - 1)"
+              [disabled]="currentPage() === 1"
+              class="px-4 py-2 rounded-xl bg-white/10 text-white hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              Trước
+            </button>
+
+            @for (page of [].constructor(meta.totalPages); track $index) {
+              <button
+                (click)="onPageChange($index + 1)"
+                [class.bg-gradient-to-r]="currentPage() === $index + 1"
+                [class.from-indigo-500]="currentPage() === $index + 1"
+                [class.to-purple-500]="currentPage() === $index + 1"
+                [class.bg-white/10]="currentPage() !== $index + 1"
+                class="px-4 py-2 rounded-xl text-white hover:bg-white/20 transition-colors"
+              >
+                {{ $index + 1 }}
+              </button>
+            }
+
+            <button
+              (click)="onPageChange(currentPage() + 1)"
+              [disabled]="currentPage() === meta.totalPages"
+              class="px-4 py-2 rounded-xl bg-white/10 text-white hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              Sau
+            </button>
+          </div>
+
+          <p class="text-center text-white/50 mt-3 text-sm">
+            Trang {{ currentPage() }} / {{ meta.totalPages }} (Tổng: {{ meta.total }} todo)
+          </p>
+        }
+      }
+    }
+  </main>
+</div>
+
+<!-- Todo Form Modal -->
+@if (showForm()) {
+  <app-todo-form
+    [todo]="editingTodo()"
+    (close)="onFormClose()"
+    (saved)="onFormSaved()"
+  />
+}
